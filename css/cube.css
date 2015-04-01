@@ -1,0 +1,128 @@
+#container {
+    perspective: 3000px;
+    perspective-origin: 50% 200px;
+}
+
+#controls {
+    position: relative;
+    margin: 0px auto;
+    height: 70px;
+    width: 400px;
+}
+
+#cube {
+    position: relative;
+    margin: 100px auto;
+    height: 400px;
+    width: 400px;
+    transition: transform 0.25s linear;
+    transform-style: preserve-3d;
+    transform-origin: 200px 200px 200px;
+}
+
+.slice {
+    position: absolute;
+    height: 400px;
+    width: 400px;
+    padding: 0px;
+    background-color: rgba(50, 50, 50, 0.1);
+    color: #fff;
+    border: 1px solid rgba(50, 50, 50, 0.2);
+    border-radius: 3px;
+}
+
+.slice .cell {
+    position: absolute;
+    width: calc(100%/8);
+    height: calc(100%/8);
+    /* Set the width and height of cells for a 8x8 board */
+    
+    border-radius: 4px;
+    border: 1px solid rgba(50, 50, 50, 0.10);
+    background-color: rgba(50, 50, 50, 0.05);
+    display: inline-block;
+    /* We want the divs to sit alongside one another */
+}
+
+.cell .led {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    height: 20px;
+    width: 20px;
+    border: 0px solid #aaa;
+    border-radius: 10px;
+    background-color: rgba(50, 50, 255, 0.4);
+    color: #fff;
+    display: inline-block;
+}
+
+.face {
+    position: absolute;
+    height: 440px;
+    width: 440px;
+    padding: 0px;
+    background-color: rgba(255, 50, 50, 0.05);
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 3px;
+}
+
+#cube .yz {
+    visibility: visible;
+}
+
+#cube .yz .face {
+    visibility: visible;
+}
+
+#cube .xz {
+    visibility: visible;
+}
+
+#cube .xz .face {
+    visibility: visible;
+}
+
+#cube .xy {
+    visibility: visible;
+}
+
+#cube .xy .face {
+    visibility: visible;
+}
+
+
+#cube #front {
+    transform: translateX(-20px) translateY(-20px) translateZ(420px);
+}
+
+#cube #back {
+    transform: rotateY(180deg) translateX(20px) translateY(-20px) translateZ(20px);
+}
+
+#cube #top {
+    transform: rotateX(90deg) translateX(-20px) translateY(200px) translateZ(240px);
+}
+
+#cube #bottom {
+    transform: rotateZ(180deg) rotateX(90deg) translateX(20px) translateY(200px) translateZ(200px);
+}
+
+#cube #left {
+    transform: rotateY(-90deg) translateY(-20px) translateX(200px) translateZ(240px);
+}
+
+#cube #right {
+    transform: rotateY(90deg) translateY(-20px) translateX(-200px) translateZ(200px);
+}
+
+.label {
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    font-size: 48px;
+    line-height: 1em;
+    color: #555;
+    transform: translateX(-50%) translateY(-50%);
+}

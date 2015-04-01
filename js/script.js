@@ -25,7 +25,6 @@ window.addEventListener('load', function() { // When everything is loaded
                 evt.preventDefault();
                 break;
         };
-
         document.querySelector('#cube').style.transform = 'rotateX(' + xAngle + 'deg' + ')' + ' ' + 'rotateY(' + yAngle + 'deg' + ')'
     }, false);
 });
