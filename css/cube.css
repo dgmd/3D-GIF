@@ -1,13 +1,18 @@
 #container {
     perspective: 3000px;
-    perspective-origin: 50% 200px;
+    /* This places the z=0 plane away from us, so the entire cube is in front of us; you can read more at https://developer.mozilla.org/en-US/docs/Web/CSS/perspective */
 }
 
 #controls {
-    position: relative;
-    margin: 0px auto;
-    height: 70px;
-    width: 400px;
+    position: absolute;
+    width: 100%;
+    top: calc(100% - (100% - 400px)/2 + 2.5em/2*1.5);
+    font-family: 'Codystar', cursive;
+    font-size: 2.5em;
+    letter-spacing: 0.125em;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
 #cube {
@@ -16,113 +21,42 @@
     height: 400px;
     width: 400px;
     transition: transform 0.25s linear;
-    transform-style: preserve-3d;
-    transform-origin: 200px 200px 200px;
-}
-
-.slice {
-    position: absolute;
-    height: 400px;
-    width: 400px;
-    padding: 0px;
-    background-color: rgba(50, 50, 50, 0.1);
-    color: #fff;
-    border: 1px solid rgba(50, 50, 50, 0.2);
-    border-radius: 3px;
-}
-
-.slice .cell {
-    position: absolute;
-    width: calc(100%/8);
-    height: calc(100%/8);
-    /* Set the width and height of cells for a 8x8 board */
+    /* Tells CSS we want to work in 3D */
     
-    border-radius: 4px;
-    border: 1px solid rgba(50, 50, 50, 0.10);
-    background-color: rgba(50, 50, 50, 0.05);
-    display: inline-block;
-    /* We want the divs to sit alongside one another */
+    transform-style: preserve-3d;
+    /* This moves the origin of all our transforms to the center of our cube */
+    
+    transform-origin: calc(400px/2) calc(400px/2) calc(-1 * 400px/2);
 }
 
-.cell .led {
+.cell {
     position: absolute;
-    top: 15px;
-    left: 15px;
-    height: 20px;
-    width: 20px;
-    border: 0px solid #aaa;
-    border-radius: 10px;
-    background-color: rgba(50, 50, 255, 0.4);
-    color: #fff;
-    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: rgba(0, 0, 0, 0.05);
+    opacity: 0.375;
 }
 
-.face {
-    position: absolute;
-    height: 440px;
-    width: 440px;
-    padding: 0px;
-    background-color: rgba(255, 50, 50, 0.05);
-    color: #fff;
-    border: 1px solid #555;
-    border-radius: 3px;
+.led {
+    position: relative;
+    width: 25%;
+    height: 25%;
+    border-radius: 100px;
+    /* Setting this to something too large, since border-radius doesn't let you calculate with % */
+    
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+    /* Center the led vertically and horizontally in the cell; you can read more about the technique at http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/ */
 }
 
-#cube .yz {
-    visibility: visible;
+.led.on {
+    opacity: 1;
 }
 
-#cube .yz .face {
-    visibility: visible;
-}
-
-#cube .xz {
-    visibility: visible;
-}
-
-#cube .xz .face {
-    visibility: visible;
-}
-
-#cube .xy {
-    visibility: visible;
-}
-
-#cube .xy .face {
-    visibility: visible;
-}
-
-
-#cube #front {
-    transform: translateX(-20px) translateY(-20px) translateZ(420px);
-}
-
-#cube #back {
-    transform: rotateY(180deg) translateX(20px) translateY(-20px) translateZ(20px);
-}
-
-#cube #top {
-    transform: rotateX(90deg) translateX(-20px) translateY(200px) translateZ(240px);
-}
-
-#cube #bottom {
-    transform: rotateZ(180deg) rotateX(90deg) translateX(20px) translateY(200px) translateZ(200px);
-}
-
-#cube #left {
-    transform: rotateY(-90deg) translateY(-20px) translateX(200px) translateZ(240px);
-}
-
-#cube #right {
-    transform: rotateY(90deg) translateY(-20px) translateX(-200px) translateZ(200px);
-}
-
-.label {
-    position: absolute;
-    top: 25%;
-    left: 25%;
-    font-size: 48px;
-    line-height: 1em;
-    color: #555;
-    transform: translateX(-50%) translateY(-50%);
+.led:not(.on) {
+    /* A selector for all LEDs which do _not_ have the class 'on', you can read more at https://developer.mozilla.org/en-US/docs/Web/CSS/:not */
+    
+    opacity: 0.25;
 }

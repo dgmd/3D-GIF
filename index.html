@@ -3,45 +3,35 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>L3D CUBE</title>
     <link rel="stylesheet" href="css/cube.css" />
+    <link href='http://fonts.googleapis.com/css?family=Codystar' rel='stylesheet' type='text/css'>
 </head>
 
 <body class="l3d">
     <div id="container">
         <div id="controls">
-            <div id="reset"></div>
-            <div id="clear"></div>
-            <div id="rotx+"></div>
-            <div id="rotx-"></div>
-            <div id="roty+"></div>
-            <div id="roty-"></div>
-            <div id="save"></div>
-            <div id="send"></div>
+            <div id='play'>Play</div>
         </div>
     </div>
     <script src='js/cell.js'></script>
-    <script src='js/slice.js'></script>
     <script src='js/cube.js'></script>
-    <script src="js/script.js"></script>
+    <script src='js/script.js'></script>
     <script>
-    var cube;
-    var slices;
-    window.addEventListener('load', function() {
-        cube = new Cube(8);
-        slices = [];
+    window.addEventListener('load', function(event) {
+        var cube = new Cube(8);
+        document.getElementById('play').addEventListener('click', function(event) {
+            var numShifts = 0;
+            var animateBack = setInterval(function() {
+                cube.shiftPlane('Z');
+                numShifts++;
+                if (numShifts == 7) {
+                    numShifts = 0;
+                    clearInterval(animateBack);
+                }
+            }, 250);
 
-        for (var i = 0; i < 8; i++) {
-            var slice = new Slice();
-            var cells = [];
-            for (var i = 0; i < 8 * 8; i++) {
-                cells.push(new Cell());
-            }
-            slice.cells = cells;
-            slices.push(slice);
-        }
-        cube.slices = slices;
-    })
+        });
+    });
     </script>
 </body>
 

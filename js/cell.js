@@ -5,12 +5,10 @@ var Cell = function() {
     // at http://www.quirksmode.org/js/this.html
     // and in a more detailed tutorial: http://javascriptissexy.com/understand-javascripts-this-with-clarity-and-master-it/
 
-    // We're going to want to know what row and column I'm in, but we won't 'til I'm added to a slice
+    // We're going to want to know what row, column, and depth I'm at, but we won't 'til I'm added to a cube
     this.row = null;
     this.column = null;
-
-    // Which slice owns me
-    this.slice = null;
+    this.depth = null;
 
     // Connection to a cube
     this.cube = null;
@@ -19,31 +17,58 @@ var Cell = function() {
     me.html = document.createElement('div');
     me.html.classList.add('cell');
 
-    // Let's create an event for when I want to submit myself to the tray
-    // You can read more about this on MDN at https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events
-    var submit = new CustomEvent('cellSubmit', {
-        detail: {
-            'cell': me // and send along all my info
-        }
-    });
-    me.html.addEventListener('click', function(event) {
-    	me.html.dispatchEvent(submit); // and trigger my custom event when someone clicks my HTML
-    });
+    this.led = document.createElement('div');
+    this.led.classList.add('led');
+    me.html.appendChild(this.led);
 
-    var _color; // the letter I actually contain
+    // We'll store colors internally as an RGB array
+    this.defaultColor = [0, 0, 255];
+    var _color = [0, 0, 0]; // we start out off
     Object.defineProperty(this, 'color', {
-        // Custom getters and setters; you can read more about this at:
-        // MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
-        // Yehuda Katz's tutorial: http://yehudakatz.com/2011/08/12/understanding-prototypes-in-javascript/
-        get: function() {
-            // when someone asks for cell.letter, just give them back _letter
+        'get': function() {
             return _color;
         },
-        set: function(color) {
-            // when someone sets cell.letter = something, reset _letter
-            _color = color;
-            // and change what my HTML displays
-            me.html.style.background = color;
+        'set': function(rgbDictionary) {
+            // A custom setter which both updates our color attribute and renders that color
+            if (this.on) {
+                _color = rgbDictionary;
+                var led = me.html.querySelector('.led'); // the LED's HTML
+                led.style.backgroundColor = 'rgba(' + this.color.join(',') + ',' + '1' + ')';
+                me.html.style.backgroundColor = 'rgba(' + this.color.join(',') + ',' + '0.05' + ')';
+            }
+        }
+    });
+    // Initialize our color
+    this.led.style.backgroundColor = 'rgba(' + this.color.join(',') + ',' + '1)';
+
+
+    var _on = false;
+    Object.defineProperty(this, 'on', {
+        'get': function() {
+            return _on;
+        },
+        'set': function(turnOn) {
+            // A custom setter for my on status which both toggles my on status and changes my color to black
+            if (turnOn) {
+                _on = turnOn;
+                this.led.classList.add('on');
+                this.color = this.defaultColor;
+                me.html.style.opacity = 1;
+            } else {
+                this.led.classList.remove('on');
+                this.color = [0, 0, 0];
+                _on = turnOn;
+                me.html.style.opacity = 0.375;
+            }
+        }
+    });
+    this.on = false;
+
+    // If I'm in the front plane
+    me.html.addEventListener('click', function(event) {
+        if (me.depth === 0) {
+            // Toggle my on status when someone clicks the cell
+            me.on = !me.on;
         }
     });
 
