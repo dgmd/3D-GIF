@@ -34,7 +34,7 @@ var Cell = function() {
                 _color = rgbDictionary;
                 var led = me.html.querySelector('.led'); // the LED's HTML
                 led.style.backgroundColor = 'rgba(' + this.color.join(',') + ',' + '1' + ')';
-                me.html.style.backgroundColor = 'rgba(' + this.color.join(',') + ',' + '0.05' + ')';
+                me.html.style.backgroundColor = 'rgba(' + this.color.join(',') + ',' + '0.125' + ')';
             }
         }
     });

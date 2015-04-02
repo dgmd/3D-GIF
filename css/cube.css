@@ -34,14 +34,14 @@
     width: 50px;
     height: 50px;
     border: 1px solid rgba(0, 0, 0, 0.125);
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.125);
     opacity: 0.375;
 }
 
 .led {
     position: relative;
-    width: 25%;
-    height: 25%;
+    width: 15%;
+    height: 15%;
     border-radius: 100px;
     /* Setting this to something too large, since border-radius doesn't let you calculate with % */
     
